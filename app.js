@@ -16,9 +16,15 @@ app.use(methodOverride('_method'))
 
 app.use(function(req, res, next) {
   const time = new Date()
+  const requestTime = Date.now()
   let serverLog = `${time} | ${req.method} from ${req.originalUrl}`
   console.log(serverLog)
   next()
+  const responseTime = Date.now()
+  let serverLog2 = `${time} | ${req.method} from ${
+    req.originalUrl
+  } | total time : ${responseTime - requestTime} ms `
+  console.log(serverLog2)
 })
 
 app.get('/', (req, res) => {
