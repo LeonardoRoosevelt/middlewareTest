@@ -1,0 +1,15 @@
+{{#each todos}}
+<li class='list-group-item'>
+  <div class='row'>
+    <div class="col-auto mr-auto">
+      <h4 style='display:inline; vertical-align: middle'>
+        {{this.name}}
+      </h4>
+    </div>
+    <div class="col-auto">
+      <a class='btn btn-secondary' href="./todos/{{this._id}}">Detail</a>
+      </form>
+    </div>
+  </div>
+</li>
+{{/each}}
