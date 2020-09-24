@@ -4,6 +4,7 @@ const port = 3000
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
+const requireDate = require('./date')
 const Todo = require('./models/todo')
 
 require('./config/mongoose')
@@ -15,16 +16,19 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
 app.use(function(req, res, next) {
-  const time = new Date()
+  let dateValues = requireDate()
   const requestTime = Date.now()
-  let serverLog = `${time} | ${req.method} from ${req.originalUrl}`
+  let serverLog = `${dateValues} | ${req.method} from ${req.originalUrl}`
   console.log(serverLog)
+  res.on('finish', () => {
+    const dateValues = requireDate()
+    const responseTime = Date.now()
+    let serverLog2 = `${dateValues} | ${req.method} from ${
+      req.originalUrl
+    } | total time : ${responseTime - requestTime} ms `
+    console.log(serverLog2)
+  })
   next()
-  const responseTime = Date.now()
-  let serverLog2 = `${time} | ${req.method} from ${
-    req.originalUrl
-  } | total time : ${responseTime - requestTime} ms `
-  console.log(serverLog2)
 })
 
 app.get('/', (req, res) => {
